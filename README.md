@@ -103,7 +103,9 @@ The baseline achieved **93% accuracy** on the development test set but failed co
 | Effusion | 0.00 | 0.00 | 0.00 | 47 |
 | No Finding | 0.93 | 1.00 | 0.96 | 901 |
 | Pneumonia | 0.00 | 0.00 | 0.00 | 6 |
-| **Macro Avg F1** | | | **0.24** | |
+| **Accuracy** | | | | **0.93** |
+| **Macro Avg** | **0.23** | **0.25** | **0.24** | **969** |
+| **Weighted Avg** | **0.86** | **0.93** | **0.90** | **969** |
 
 The baseline essentially learned to predict "No Finding" for all images, demonstrating why accuracy is misleading in imbalanced medical tasks.
 
@@ -112,17 +114,18 @@ The multimodal model substantially improved minority class detection:
 
 | Class | Precision | Recall | F1 | Support |
 |-------|-----------|--------|-----|---------|
-| Cardiomegaly | 0.17 | 0.47 | 0.37 | 15 |
-| Effusion | 0.28 | 0.62 | 0.33 | 47 |
-| No Finding | 0.96 | 0.88 | 0.91 | 901 |
-| Pneumonia | 0.20 | 0.17 | 0.12 | 6 |
-| **Accuracy** | | | | **0.84** |
-| **Macro Avg F1** | | | **0.43** | |
+| Cardiomegaly | 0.38 | 0.33 | 0.36 | 15 |
+| Effusion | 0.23 | 0.55 | 0.33 | 47 |
+| No Finding | 0.96 | 0.89 | 0.92 | 901 |
+| Pneumonia | 0.33 | 0.17 | 0.22 | 6 |
+| **Accuracy** | | | | **0.86** |
+| **Macro Avg** | **0.48** | **0.49** | **0.46** | **969** |
+| **Weighted Avg** | **0.91** | **0.86** | **0.88** | **969** |
 
 **Key improvements:**
-- Macro F1 increased from 0.24 → 0.43 (+79%)
-- Effusion recall: 0.00 → 0.62
-- Cardiomegaly recall: 0.00 → 0.47
+- Macro F1 increased from 0.24 → 0.46 (+92%)
+- Effusion recall: 0.00 → 0.55
+- Cardiomegaly recall: 0.00 → 0.33
 - Pneumonia: achieved non-zero detection despite only 34 training samples
 
 ### Generalization to Unseen Data
@@ -130,14 +133,15 @@ Evaluation on the fully disjoint unseen subset (images_010) demonstrated robustn
 
 | Class | Precision | Recall | F1 | Support |
 |-------|-----------|--------|-----|---------|
-| Cardiomegaly | 0.12 | 0.59 | 0.19 | 17 |
-| Effusion | 0.29 | 0.62 | 0.39 | 55 |
-| No Finding | 0.96 | 0.81 | 0.88 | 889 |
+| Cardiomegaly | 0.09 | 0.35 | 0.15 | 17 |
+| Effusion | 0.38 | 0.64 | 0.47 | 55 |
+| No Finding | 0.96 | 0.87 | 0.91 | 889 |
 | Pneumonia | 0.00 | 0.00 | 0.00 | 5 |
-| **Accuracy** | | | | **0.80** |
-| **Macro Avg F1** | | | **0.37** | |
+| **Accuracy** | | | | **0.84** |
+| **Macro Avg** | **0.36** | **0.46** | **0.38** | **966** |
+| **Weighted Avg** | **0.91** | **0.84** | **0.87** | **966** |
 
-Despite distribution shift, the model maintained meaningful recall for Effusion (0.62) and Cardiomegaly (0.59), confirming that learned representations generalize beyond the development subset.
+Despite distribution shift, the model maintained meaningful recall for Effusion (0.64) and Cardiomegaly (0.35), confirming that learned representations generalize beyond the development subset.
 
 ---
 
@@ -149,7 +153,7 @@ Despite distribution shift, the model maintained meaningful recall for Effusion 
 The baseline's 93% accuracy masked complete failure on minority classes, confirming that standard metrics are inadequate for imbalanced medical data. The multimodal model's use of focal loss, class weighting, and oversampling enabled meaningful detection of rare conditions.
 
 **Value of Multimodal Learning:**
-Incorporating metadata (age, gender, view position) alongside image features improved macro F1-score by 79% and enabled the model to learn disease-specific patterns beyond visual cues alone. This aligns with findings from Khader et al. (2023) and Baltruschat et al. (2019).
+Incorporating metadata (age, gender, view position) alongside image features improved macro F1-score by 92% (0.24 → 0.46) and enabled the model to learn disease-specific patterns beyond visual cues alone. This aligns with findings from Khader et al. (2023) and Baltruschat et al. (2019).
 
 **Generalization Under Distribution Shift:**
 The unseen evaluation demonstrated that the model learned transferable disease representations rather than memorizing dataset-specific artifacts. Stable recall for Effusion and Cardiomegaly across different patient cohorts suggests potential for real-world deployment with appropriate validation.
