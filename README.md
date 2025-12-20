@@ -12,7 +12,7 @@ This project builds a supervised image classification system that assigns a sing
 
 Figure 1 illustrates the overall approach. The baseline model takes only chest X-ray images as input, processes them through a CNN (ResNet-18), and outputs one of four disease categories. The improved multimodal model uses a ResNet-50 backbone for image encoding, a separate MLP to process metadata features (age, gender, view position), concatenates both feature vectors, and passes them through a fusion classifier for final 4-class prediction.
 
-<img src="APS360 Diagram (2).jpg" alt="Figure 1" width="600">
+<img src="Diagram.jpg" alt="Figure 1" width="600">
 
 > **Figure 1:** Multimodal architecture with separate image and metadata branches, feature fusion, and classification head.
 
